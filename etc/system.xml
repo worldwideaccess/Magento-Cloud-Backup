@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+	/**
+	* Magento Cloud Backup backup integration by World Wide Access.
+	*
+	* @package    Aschroder_CloudBackup
+	* @author     Ashley Schroder (aschroder.com)
+	* @copyright 	@copyright Copyright 2010 World Wide Access
+	*/
+-->
+<config>
+	<sections>
+		<system>
+			<groups>
+			<cloudbackup translate="label" module="cloudbackup">
+					<label>Cloud Backup (beta)</label>
+					<comment>&lt;br/&gt; &lt;a href="http://www.world-wide-access.com"&gt;&lt;img src="http://www.world-wide-access.com/wp-content/themes/wwa2/cloudbackup/world-wide-access-logo.jpg" /&gt; &lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Welcome to the Cloud Backup beta program by World Wide Access! To begin, you'll need to &lt;a target="_blank" href="https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=68787195"&gt;get an activation key&lt;/a&gt; and paste the key in the box below. The beta program provides 1GB of free storage, and then each GB stored beyond that is 50 cents/month. If you have any questions, please just get in touch with me on ashley@world-wide-access.com or click the logo above. If you've lost your activation key, just &lt;a target="_blank" href="http://www.amazon.com/dp-activate" &gt;click here&lt;/a&gt; to get a replacement.&lt;br/&gt;&lt;br/&gt;</comment>
+					<frontend_type>text</frontend_type>
+					<sort_order>999</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>0</show_in_store>
+						<fields>
+							<activation translate="label">
+								<label>Activation Key</label>
+								<comment>This is the activation key you receive when signing up. You signed up, right?</comment>
+								<frontend_type>text</frontend_type>
+								<source_model>cloudbackup/form_activation</source_model>
+								<sort_order>5</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>0</show_in_website>
+								<show_in_store>0</show_in_store>
+							</activation>
+							<bucket_name translate="label">
+								<label>Bucket Name</label>
+								<comment>This is the bucket name for your backup bucket - leave this blank and we'll generate a name for you. It needs to be unique, so I suggest something like: 2010-10-10.yourdomain.com</comment>
+								<frontend_type>text</frontend_type>
+								<sort_order>20</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>0</show_in_website>
+								<show_in_store>0</show_in_store>
+							</bucket_name>
+							<email translate="label">
+								<label>Admin Email Address</label>
+								<comment>This is the email address of the person we will notify when a backup succeeds or fails.</comment>
+								<frontend_type>text</frontend_type>
+								<sort_order>20</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>0</show_in_website>
+								<show_in_store>0</show_in_store>
+							</email>
+							<auto translate="label">
+								<label>Automatic offsite backup</label>
+								<comment>If enabled, a process will create a whole store offsite backup everyday.</comment>
+								<frontend_type>select</frontend_type>
+								<source_model>adminhtml/system_config_source_yesno</source_model>
+								<sort_order>30</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>0</show_in_store>
+							</auto>
+							<exclude translate="label">
+								<label>Excluded Directories</label>
+								<comment>You can exclude certain directories from your backup, particularly if permissions issues on your webserver disallow you to access them. Enter a comma separated list of root folder names, e.g lib,media. If you do not know what this is for, you don't need it. Excluding var excludes the database backup file, so you probably don't want to do that.</comment>
+								<frontend_type>text</frontend_type>
+								<sort_order>40</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>0</show_in_website>
+								<show_in_store>0</show_in_store>
+							</exclude>
+							<location translate="label">
+								<label>Backup Storage Location</label>
+								<comment>This is the temporary storage location of the backup while it is being created. You probably want to leave this blank for the default var/backups. Or if you have specififc permissions or storage limitations this could be set to a different location e.g /tmp. Must be writable by the webserver/cron user.</comment>
+								<frontend_type>text</frontend_type>
+								<sort_order>50</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>0</show_in_website>
+								<show_in_store>0</show_in_store>
+							</location>
+						</fields>
+				</cloudbackup>
+			</groups>
+		</system>
+	</sections>
+</config>

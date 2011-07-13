@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!--
+	/**
+	* Magento Cloud Backup backup integration by World Wide Access.
+	*
+	* @package    Aschroder_CloudBackup
+	* @author     Ashley Schroder (aschroder.com)
+	* @copyright 	@copyright Copyright 2010 World Wide Access
+	*/
+-->
+<config>
+	<modules>
+		<Aschroder_CloudBackup>
+			<version>0.2.4</version>
+		</Aschroder_CloudBackup>
+	</modules>
+	<frontend>
+    		<routers>
+      			<cloudbackup>
+      				  <use>standard</use>
+       				 <args>
+       				   <module>Aschroder_CloudBackup</module>
+       				   <frontName>cloudbackup</frontName>
+       				 </args>
+      			</cloudbackup>
+    		</routers>
+  	</frontend>
+	<global>
+		<helpers>
+			<cloudbackup><class>Aschroder_CloudBackup_Helper</class></cloudbackup>
+		</helpers>
+		<blocks>
+			<cloudbackup>
+				<class>Aschroder_CloudBackup_Block</class>
+			</cloudbackup>
+		</blocks>
+		<models>
+			<cloudbackup>
+				<class>Aschroder_CloudBackup_Model</class>
+			</cloudbackup>
+		</models>
+		 <template>
+                <email>
+                        <system_cloudbackup_success_email translate="label" module="cloudbackup">
+                                <label>Backup Admin Success Notification</label>
+                                <file>cloudbackup/success_email.html</file>
+                                <type>html</type>
+                        </system_cloudbackup_success_email>
+                        <system_cloudbackup_failed_email translate="label" module="cloudbackup">
+                                <label>Backup Admin Failed Notification</label>
+                                <file>cloudbackup/failed_email.html</file>
+                                <type>html</type>
+                        </system_cloudbackup_failed_email>
+                </email>
+        </template>
+       	</global>
+      <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <cloudbackup before="Mage_Adminhtml">Aschroder_CloudBackup</cloudbackup>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+	 <adminhtml>
+        <menu>
+            <system>
+                <children>
+                    <tools>
+                        <children>
+                            <cloudbackup translate="title" module="cloudbackup">
+                                <title>Offsite Backups</title>
+                                <action>cloudbackup/backup</action>
+                            </cloudbackup>
+                        </children>
+                    </tools>
+                </children>
+            </system>
+        </menu>
+    </adminhtml>    
+	<default>
+		<cloudbackup>
+			<settings>
+				<enabled>0</enabled>
+			</settings>
+		</cloudbackup>
+	</default>
+	 <crontab>
+        <jobs>
+            <cloudbackup_daily>
+                <schedule><cron_expr>0 0 * * *</cron_expr></schedule>
+                <run><model>cloudbackup/backup::daily</model></run>
+            </cloudbackup_daily>
+        </jobs>
+    </crontab>
+</config>
