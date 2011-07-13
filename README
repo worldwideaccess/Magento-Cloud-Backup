@@ -1,0 +1,22 @@
+This extension will allow you to create backups of your entire store and database and send it to an offsite cloud storage service (Amazon S3). You can also allow automated backups which will send the backups to the cloud everyday for piece of mind in the event of a data disaster.
+
+Please note, the beta program and software is likely to change as we develop new features. Please only participate if you are happy with that.
+
+Lastly, cost. The extension is provided free, and the data storage will be free for the first GB of data and 50 cents per GB-month after that.
+
+The service is billed and backed by Amazon's S3 service, so you can cancel your subscription at any time - best to download your most recent backup before cancelling your subscription though.
+
+To use the extension:
+
+1) Install from Magento Connect
+
+2) Sign up for the beta by activating the software through Amazon (a link is provided in the extension configuration)
+
+3) Create your first backup in Tools->Offsite backups
+
+4) Optionally use automated backups (requires Magento cron to be configured)
+
+Easy eh?!
+
+So please give it a try and let us know what you think. During the beta, you can contact me directly for support and installation help.
+
