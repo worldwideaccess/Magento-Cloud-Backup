@@ -11,7 +11,7 @@
 <config>
 	<modules>
 		<Aschroder_CloudBackup>
-			<version>0.2.4</version>
+			<version>0.2.5</version>
 		</Aschroder_CloudBackup>
 	</modules>
 	<global>
