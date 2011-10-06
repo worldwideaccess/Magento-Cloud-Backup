@@ -14,17 +14,6 @@
 			<version>0.2.4</version>
 		</Aschroder_CloudBackup>
 	</modules>
-	<frontend>
-    		<routers>
-      			<cloudbackup>
-      				  <use>standard</use>
-       				 <args>
-       				   <module>Aschroder_CloudBackup</module>
-       				   <frontName>cloudbackup</frontName>
-       				 </args>
-      			</cloudbackup>
-    		</routers>
-  	</frontend>
 	<global>
 		<helpers>
 			<cloudbackup><class>Aschroder_CloudBackup_Helper</class></cloudbackup>
@@ -53,16 +42,16 @@
                         </system_cloudbackup_failed_email>
                 </email>
         </template>
-       	</global>
+    </global>
       <admin>
         <routers>
-            <adminhtml>
+            <cloudbackup>	
+				<use>admin</use>
                 <args>
-                    <modules>
-                        <cloudbackup before="Mage_Adminhtml">Aschroder_CloudBackup</cloudbackup>
-                    </modules>
+                    <module>Aschroder_CloudBackup</module>
+                    <frontName>cloudbackup</frontName>
                 </args>
-            </adminhtml>
+            </cloudbackup>
         </routers>
     </admin>
 	 <adminhtml>
@@ -80,6 +69,25 @@
                 </children>
             </system>
         </menu>
+     <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <tools>
+                                <children>
+                                    <cloudbackup translate="title" module="cloudbackup">
+                                        <title>Offsite Backups</title>
+                                    </cloudbackup>
+                                </children>
+                            </tools>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
     </adminhtml>    
 	<default>
 		<cloudbackup>
