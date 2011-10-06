@@ -57,7 +57,7 @@ class Aschroder_CloudBackup_Block_Backup_Grid extends Mage_Adminhtml_Block_Widge
     		$obj = new Varien_Object();
     		if(isset($bucket['time'])) {
 	    		$obj->setData('name', $bucket['name']);
-	    		$obj->setData('time', new Zend_Date($key['time'], Zend_Date::TIMESTAMP));
+	    		$obj->setData('time', new Zend_Date($bucket['time'], Zend_Date::TIMESTAMP));
 	    		$obj->setData('inuse', ($bucket['name'] == $current_bucket)?'Yes':'');
     		}
     		$collection->addItem($obj);
