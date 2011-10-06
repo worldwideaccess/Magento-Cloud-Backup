@@ -29,5 +29,5 @@ umask(0);
 Mage::app('default');
 
 $obj = Mage::getModel('cloudbackup/backup');
-$obj->createBackup();
+$obj->pruneOldBackups();
 ?>

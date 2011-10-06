@@ -28,6 +28,7 @@
 class Aschroder_CloudBackup_Model_Backup {
 	
 		private $logTo = "mage";
+		private $NUM_MONTHS = 3; // but you can change it if you want
 			
 		public function daily() {
 			
@@ -35,6 +36,54 @@ class Aschroder_CloudBackup_Model_Backup {
 			if(Mage::helper('cloudbackup')->getAuto()) {
 				$this->createBackup();
 			}
+			
+			// If we have enabled autocleanup
+			if(Mage::helper('cloudbackup')->getAutoCleanup()) {
+				$this->pruneOldBackups();
+			}
+		}
+		
+		/*
+		* Prune old backups
+		*/
+		public function pruneOldBackups() {
+			
+			$current_bucket =  Mage::getStoreConfig('system/cloudbackup/bucket_name');
+			
+			if (!$current_bucket) {
+				$this->log("No bucket is set, we cannot prune old backups.");
+				return;
+			}	
+			
+			$s3 =  Mage::helper('cloudbackup')->getS3Client();
+			
+			try {
+				
+				$bucket_contents = $s3->getBucket($current_bucket);
+				
+				$cutoff_date = new Zend_Date();
+				$cutoff_date->sub($this->NUM_MONTHS, Zend_Date::MONTH);
+				
+				foreach ($bucket_contents as $key) {
+					
+					$bucket_date = new Zend_Date($key['time'], Zend_Date::TIMESTAMP);
+					
+					if ($bucket_date->compare($cutoff_date) == -1 ) {
+						
+						$this->log($key['name'] . " was created on $bucket_date and is older than " . 
+							$this->NUM_MONTHS . " months, deleting.");
+						$s3->deleteObject($current_bucket, $key['name']);
+						
+					}
+					
+				}
+				
+			} catch (Exception $e) {
+				Mage::logException($e);
+				$this->log("Failed to while pruning old backups - please see exception.log for details.");
+				return;
+			}
+			
 		}
 		
 		/*
