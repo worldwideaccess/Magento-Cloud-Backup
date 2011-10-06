@@ -35,13 +35,22 @@ class Aschroder_CloudBackup_Block_Backup_Grid extends Mage_Adminhtml_Block_Widge
      */
     protected function _prepareCollection() {
     	
-    	$s3 =  Mage::helper('cloudbackup')->getS3Client();
+    	// Start with an empty collection
  		$collection = new Aschroder_CloudBackup_Model_Collection();
+    	
+    	try {
+	    	$s3 =  Mage::helper('cloudbackup')->getS3Client();
+    	} catch (Exception $e) {
+    		//Set an error and an empty collection
+    		Mage::getSingleton('adminhtml/session')->addException($e, Mage::helper('adminhtml')->__('Could not connect to Amazon S3.'));
+    		$this->setCollection($collection);
+         	return parent::_prepareCollection();
+    	}
     	
     	try {
 	    	$buckets = $s3->listBuckets(true);
     	} catch (Exception $e) {
-    		//Set an error an an empty collection
+    		//Set an error and an empty collection
     		Mage::getSingleton('adminhtml/session')->addException($e, Mage::helper('adminhtml')->__('Could not list backups, if you have only just activated please try again shortly.'));
     		$this->setCollection($collection);
          	return parent::_prepareCollection();

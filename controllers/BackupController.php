@@ -34,6 +34,17 @@ class Aschroder_CloudBackup_BackupController extends Mage_Adminhtml_Controller_A
             return;
         }
         
+        // check activation and connectivity
+        
+        try {
+        	$s3 =  Mage::helper('cloudbackup')->getS3Client();
+        } catch (Exception $e) {
+        	//Set an error and an empty collection
+        	$this->_getSession()->addError(Mage::helper('adminhtml')->__('Could not connect to Amazon S3. Please activate Cloud Backup and enter your credentials below. If you have, please double check your details and if you still cannot connect please <a href="mailto:contact@world-wide-access.com">contact us</a>.'));
+        	$this->_redirect('adminhtml/system_config/edit/section/system');
+        	return;
+        }
+        
         // check and warn about cron
         $schedules_pending = Mage::getModel('cron/schedule')->getCollection()
         			->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_PENDING)
@@ -51,7 +62,12 @@ class Aschroder_CloudBackup_BackupController extends Mage_Adminhtml_Controller_A
         }
         
         $backupLocation = Mage::helper('cloudbackup')->getBackupLocation();
-        if (!is_writable($backupLocation)) { 
+        
+        // Check the backup location
+        if (!file_exists($backupLocation) && !mkdir($backupLocation, 0700)) {
+        	$this->_getSession()->addError(Mage::helper('adminhtml')->__(
+                		"Error: Backup directory $backupLocation does not exist and cannot be created - please check your server permissions."));
+        } else if (!is_writable($backupLocation)) { 
         		$this->_getSession()->addError(Mage::helper('adminhtml')->__(
         		"Error: Cannot write to $backupLocation. In order to create a backup the webserver must be able to write to $backupLocation. 
         		You can fix the permissions or specify a different backup location in the settings."));
