@@ -194,6 +194,9 @@ class Aschroder_CloudBackup_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function getAutoCleanup() {
 		return Mage::getStoreConfig('system/cloudbackup/autocleanup');
 	}
+	public function getNativeBackup() {
+		return Mage::getStoreConfig('system/cloudbackup/nativedb');
+	}
 	public function getBackupLocation() {
 		
 		if (Mage::getStoreConfig('system/cloudbackup/location')) {

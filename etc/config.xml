@@ -93,6 +93,7 @@
 		<cloudbackup>
 			<settings>
 				<enabled>0</enabled>
+				<nativedb>0</nativedb>
 			</settings>
 		</cloudbackup>
 	</default>

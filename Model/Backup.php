@@ -174,20 +174,27 @@ class Aschroder_CloudBackup_Model_Backup {
 		
 		private function createDatabaseBackup($backupdir) {
 			
-			$db = Mage::getModel('backup/db');
-        	$backup   = Mage::getModel('backup/backup')
-                ->setTime(time())
-                ->setType('db')
-                ->setPath(Mage::getBaseDir("var") . DS . "backups");
-
-            $db->createBackup($backup);
-            
+			// Swap in our Native Backup class if configured
+			
+			if(Mage::helper('cloudbackup')->getNativeBackup()) {
+				$db = Mage::getModel('cloudbackup/native');
+			} else {
+				$db = Mage::getModel('backup/db');
+			}
+			
+			$backup   = Mage::getModel('backup/backup')
+			->setTime(time())
+			->setType('db')
+			->setPath(Mage::getBaseDir("var") . DS . "backups");
+			
+			$db->createBackup($backup);
+			
             if (!$backup->exists() || !$backup->getSize()) {
             	// missing or 0 size backup
             	throw new Exception ("Unable to create DB backup. CloudBackup Aborted");
             }
-            
-            return $backup;
+			
+	        return $backup;
 		}
 		
 		private function writeManifest($backuplocation, $manifest_file, $dbname) {
@@ -204,6 +211,11 @@ class Aschroder_CloudBackup_Model_Backup {
 			fwrite($file, "<version>0.2.3</version>\n");
 			fwrite($file, "<db>$dbname</db>\n");
 			fwrite($file, "<tar>lib/Archive_Tar</tar>\n");
+			
+			if(Mage::helper('cloudbackup')->getNativeBackup()) {
+				fwrite($file, "<dbbackup>mysqldump</dbbackup>\n");
+			}
+			
 			fwrite($file, "</cloudbackup>");
 			fclose ($file);  
 			
