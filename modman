@@ -1,0 +1,11 @@
+Block/*			app/code/community/Aschroder/CloudBackup/Block/
+Helper/*		app/code/community/Aschroder/CloudBackup/Helper/
+Model/*			app/code/community/Aschroder/CloudBackup/Model/
+README			app/code/community/Aschroder/CloudBackup/
+ShakeDown.php	app/code/community/Aschroder/CloudBackup/
+Test.php		app/code/community/Aschroder/CloudBackup/
+controllers/*	app/code/community/Aschroder/CloudBackup/controllers/
+email/*			app/code/community/Aschroder/CloudBackup/email/
+etc/*			app/code/community/Aschroder/CloudBackup/etc/
+lib/*			app/code/community/Aschroder/CloudBackup/lib/
+modules/*		app/etc/modules/
